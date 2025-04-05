@@ -1,13 +1,16 @@
-import seaborn as sns
+#Необходимо создать класс, который будет обрабатывать наш DataFrame(log.csv),
+# и выводить график на основании обработанной информации
+#============================================================================
+
+
+# Импортировали необходимые библиотеки
 import pandas as pd
 import matplotlib.pyplot as plt
-
 import getpass
 from datetime import date, datetime
-import pandas as pd
 import os
 
-
+# Создали декоратор
 def log(func):
     def wrapper(*args, **kwargs):
         original_result = func(*args, **kwargs)
@@ -33,20 +36,22 @@ def log(func):
 
         return original_result
     return wrapper
-
+# Создали класс , в котором будет происходить обработка файла и создание графика
 class Cost:
 
     def __init__(self):
         pass
     
-    @log
+    @log # Добавили декоратор
     def processing(self):
-        # Чтение данных из CSV файла
+        
+        # Обработка файла
         data = pd.read_csv('log.csv')
         print("Прочитанные данные:")
         print(data.head())
 
         # Построение гистограммы
+
         x = data['Date'].tolist()
         y = data['Open'].tolist()
         y1 = data['High'].tolist()
@@ -62,8 +67,16 @@ class Cost:
         plt.xticks(rotation=90)
         plt.tight_layout()
         plt.show()
+        
+# Определили функцию в main
 
-apple_cost = Cost()
-apple_cost.processing()
+def main():
+    apple_cost = Cost()
+    apple_cost.processing()
+
+if __name__=="__main__":
+    main()
+
+
 
 
