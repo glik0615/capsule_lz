@@ -1,12 +1,11 @@
 import seaborn as sns
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
+
 import getpass
 from datetime import date, datetime
+import pandas as pd
 import os
-
-log_path = 'log.csv'
 
 
 def log(func):
@@ -35,23 +34,36 @@ def log(func):
         return original_result
     return wrapper
 
-class Cost():
-    def __init__(self, log_path):
-        self.log_path = log_path
+class Cost:
 
+    def __init__(self):
+        pass
+    
+    @log
     def processing(self):
+        # Чтение данных из CSV файла
         data = pd.read_csv('log.csv')
-        clean_data: pd.DataFrame = data.drop(columns=['Adj Close','Volume'])
-        sns.barplot(data=clean_data)
-        plt.xlabel('Фиксированная дата')
-        plt.ylabel('Изменения')
+        print("Прочитанные данные:")
+        print(data.head())
 
-        sns.set_style("bluegrid")
-        sns.boxplot(x='Фиксированная дата', y='Изменения', data=sns.load_dataset('iris'))
-        plt.title('Стоимость акций APPLE')
+        # Построение гистограммы
+        x = data['Date'].tolist()
+        y = data['Open'].tolist()
+        y1 = data['High'].tolist()
+        y2 = data['Close'].tolist()
+        y3 = data['Low'].tolist()
+        plt.scatter(x,y1, color = 'green')
+        plt.bar(x,y)
+        plt.bar(x,y2)
+        plt.scatter(x,y3, color = 'red')
+        plt.xlabel('Дата')
+        plt.ylabel('Изменения')
+        plt.title('Гистограмма стоимости акций Apple')
+        plt.xticks(rotation=90)
+        plt.tight_layout()
         plt.show()
 
-
-apple_cost = Cost(log_path)
+apple_cost = Cost()
 apple_cost.processing()
-    
+
+
